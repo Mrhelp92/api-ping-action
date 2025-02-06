@@ -1,0 +1,19 @@
+name: Ping Hugging Face API
+
+on:
+  schedule:
+    # Runs every hour (adjust as needed)
+    - cron: '0 * * * *'  # Adjust the cron expression for your preferred schedule
+  workflow_dispatch:  # Optional: manually trigger the workflow from GitHub UI
+
+jobs:
+  ping-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Send ping request to Hugging Face API
+        run: |
+          curl -X GET https://your-huggingface-api-url
