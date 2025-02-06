@@ -16,4 +16,4 @@ jobs:
         
       - name: Send ping request to Hugging Face API
         run: |
-          curl -X GET https://your-huggingface-api-url
+          curl -X GET https://abdelrahman-atm-qissah-drive-automation.hf.space
