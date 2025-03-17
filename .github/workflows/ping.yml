@@ -11,36 +11,54 @@ jobs:
     steps:
       - name: Wake Up & Ping Hugging Face Drive Automation API
         run: |
-          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-qissah-drive-automation.hf.space")
-          if [ "$RESPONSE" -ne 200 ]; then
-            echo "Hugging Face Drive Automation API is down! Status: $RESPONSE"
-            exit 1
-          else
-            echo "Hugging Face Drive Automation API is up! Status: $RESPONSE"
-          fi
+          for i in {1..3}; do  # Try 3 times
+            RESPONSE=$(curl -o response.txt -s -w "%{http_code}" "https://abdelrahman-atm-qissah-drive-automation.hf.space")
+            cat response.txt  # Print response for debugging
+            if [ "$RESPONSE" -eq 200 ]; then
+              echo "Drive Automation API is up! Status: $RESPONSE"
+              exit 0
+            else
+              echo "Attempt $i failed. Retrying..."
+              sleep 10  # Wait before retrying
+            fi
+          done
+          echo "Drive Automation API failed to wake up! Status: $RESPONSE"
+          exit 1
 
   ping-huggingface-clickup:
     runs-on: ubuntu-latest
     steps:
       - name: Wake Up & Ping Hugging Face ClickUp Webhook API
         run: |
-          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-tash-clickup-webhook.hf.space")
-          if [ "$RESPONSE" -ne 200 ]; then
-            echo "Hugging Face ClickUp Webhook API is down! Status: $RESPONSE"
-            exit 1
-          else
-            echo "Hugging Face ClickUp Webhook API is up! Status: $RESPONSE"
-          fi
+          for i in {1..3}; do
+            RESPONSE=$(curl -o response.txt -s -w "%{http_code}" "https://abdelrahman-atm-tash-clickup-webhook.hf.space")
+            cat response.txt
+            if [ "$RESPONSE" -eq 200 ]; then
+              echo "ClickUp Webhook API is up! Status: $RESPONSE"
+              exit 0
+            else
+              echo "Attempt $i failed. Retrying..."
+              sleep 10
+            fi
+          done
+          echo "ClickUp Webhook API failed to wake up! Status: $RESPONSE"
+          exit 1
 
   ping-huggingface-words-blocker:
     runs-on: ubuntu-latest
     steps:
       - name: Wake Up & Ping Hugging Face Words Blocker API
         run: |
-          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-tash-words-blocker.hf.space")
-          if [ "$RESPONSE" -ne 200 ]; then
-            echo "Hugging Face Words Blocker API is down! Status: $RESPONSE"
-            exit 1
-          else
-            echo "Hugging Face Words Blocker API is up! Status: $RESPONSE"
-          fi
+          for i in {1..3}; do
+            RESPONSE=$(curl -o response.txt -s -w "%{http_code}" "https://abdelrahman-atm-tash-words-blocker.hf.space")
+            cat response.txt
+            if [ "$RESPONSE" -eq 200 ]; then
+              echo "Words Blocker API is up! Status: $RESPONSE"
+              exit 0
+            else
+              echo "Attempt $i failed. Retrying..."
+              sleep 10
+            fi
+          done
+          echo "Words Blocker API failed to wake up! Status: $RESPONSE"
+          exit 1
