@@ -1,21 +1,26 @@
-name: Ping Hugging Face API
+name: Ping Hugging Face & Supabase
 
 on:
   schedule:
-    # Runs every hour (adjust as needed)
-    - cron: '0 * * * *'  # Adjust the cron expression for your preferred schedule
-  workflow_dispatch:  # Optional: manually trigger the workflow from GitHub UI
+    - cron: '0 * * * *'  # Hugging Face: Hourly
+    - cron: '0 0 * * 0'  # Supabase: Weekly (Sunday midnight)
+  workflow_dispatch:
 
 jobs:
-  ping-api:
+  ping-all:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Send ping requests to Hugging Face APIs
+      - name: Ping Hugging Face Spaces
         run: |
           curl -X GET https://abdelrahman-atm-qissah-drive-automation.hf.space
           curl -X GET https://abdelrahman-atm-tash-clickup-webhook.hf.space
           curl -X GET https://abdelrahman-atm-tash-words-blocker.hf.space
+
+      - name: Ping Supabase Database
+        run: |
+          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"
