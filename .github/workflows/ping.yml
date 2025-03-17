@@ -1,19 +1,46 @@
-name: Ping Hugging Face API
+name: Wake Up & Ping Multiple Hugging Face APIs
 
 on:
   schedule:
-    # Runs every hour (adjust as needed)
-    - cron: '0 * * * *'  # Adjust the cron expression for your preferred schedule
-  workflow_dispatch:  # Optional: manually trigger the workflow from GitHub UI
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:
 
 jobs:
-  ping-api:
+  ping-huggingface-drive:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        
-      - name: Send ping request to Hugging Face API
+      - name: Wake Up & Ping Hugging Face Drive Automation API
         run: |
-          curl -X GET https://abdelrahman-atm-qissah-drive-automation.hf.space
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-qissah-drive-automation.hf.space")
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Hugging Face Drive Automation API is down! Status: $RESPONSE"
+            exit 1
+          else
+            echo "Hugging Face Drive Automation API is up! Status: $RESPONSE"
+          fi
+
+  ping-huggingface-clickup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake Up & Ping Hugging Face ClickUp Webhook API
+        run: |
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-tash-clickup-webhook.hf.space")
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Hugging Face ClickUp Webhook API is down! Status: $RESPONSE"
+            exit 1
+          else
+            echo "Hugging Face ClickUp Webhook API is up! Status: $RESPONSE"
+          fi
+
+  ping-huggingface-words-blocker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake Up & Ping Hugging Face Words Blocker API
+        run: |
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" "https://abdelrahman-atm-tash-words-blocker.hf.space")
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Hugging Face Words Blocker API is down! Status: $RESPONSE"
+            exit 1
+          else
+            echo "Hugging Face Words Blocker API is up! Status: $RESPONSE"
+          fi
