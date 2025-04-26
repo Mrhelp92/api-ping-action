@@ -19,4 +19,4 @@ jobs:
           curl -X GET https://abdelrahman-atm-qissah-drive-automation.hf.space
           curl -X GET https://abdelrahman-atm-tash-clickup-webhook.hf.space
           curl -X GET https://abdelrahman-atm-tash-words-blocker.hf.space
-          curl -X GET https://huggingface.co/spaces/Abdelrahman-atm/8Fluidity-Drive-Automation
+          curl -X GET https://abdelrahman-atm-8fluidity-drive-automation.hf.space
