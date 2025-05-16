@@ -22,3 +22,4 @@ jobs:
           curl -X GET https://abdelrahman-atm-8fluidity-drive-automation.hf.space
           curl -X GET https://mr-help-simple-api.hf.space
           curl -X GET https://mr-help-binrushd-meta-leads.hf.space
+          curl -X GET https://mr-help-tash-create-contractor-list.hf.space
